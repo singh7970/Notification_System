@@ -43,7 +43,7 @@ export default function App() {
         fontSize: '0.8rem',
         marginTop: 'auto'
       }}>
-        Notification System Admin • Built with Django REST Framework & React Vite
+        Notification System Admin • Built with Django REST Framework & React Vite • v1.0.1
       </footer>
     </div>
   );

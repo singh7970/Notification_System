@@ -1,0 +1,33 @@
+# Python / Virtual Environment
+backend_env/
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables & Keys
+.env
+*.env
+backend/.env
+
+# Database & Storage
+*.sqlite3
+db.sqlite3
+backend/db.sqlite3
+staticfiles/
+backend/staticfiles/
+
+# Node / React Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+*.local
+
+# Logs & OS Files
+*.log
+.DS_Store
+.vscode/
+.idea/

@@ -1,7 +1,21 @@
-import React from 'react';
-import { Bell, Sliders, PlayCircle, History, BookOpen, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Bell, Sliders, PlayCircle, History, BookOpen, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { checkBackendHealth } from '../api';
 
 export function Header({ activeTab, setActiveTab }) {
+  const [isConnected, setIsConnected] = useState(null);
+
+  const verifyHealth = async () => {
+    const status = await checkBackendHealth();
+    setIsConnected(status);
+  };
+
+  useEffect(() => {
+    verifyHealth();
+    const interval = setInterval(verifyHealth, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <header style={{
       background: 'rgba(15, 23, 42, 0.85)',
@@ -76,11 +90,41 @@ export function Header({ activeTab, setActiveTab }) {
 
         {/* System Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span className="badge badge-success" style={{ padding: '6px 12px', fontSize: '0.75rem' }}>
-            <ShieldCheck size={14} /> Backend Connected
-          </span>
+          {isConnected === true ? (
+            <span className="badge badge-success" style={{ padding: '6px 12px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <ShieldCheck size={14} /> Backend Connected
+            </span>
+          ) : isConnected === false ? (
+            <span style={{
+              padding: '6px 12px',
+              fontSize: '0.75rem',
+              borderRadius: '20px',
+              fontWeight: 600,
+              background: 'rgba(239, 68, 68, 0.15)',
+              color: '#f87171',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}>
+              <ShieldAlert size={14} /> Backend Disconnected
+            </span>
+          ) : (
+            <span style={{
+              padding: '6px 12px',
+              fontSize: '0.75rem',
+              borderRadius: '20px',
+              fontWeight: 600,
+              background: 'rgba(234, 179, 8, 0.15)',
+              color: '#facc15',
+              border: '1px solid rgba(234, 179, 8, 0.3)'
+            }}>
+              Checking Status...
+            </span>
+          )}
         </div>
       </div>
     </header>
   );
 }
+

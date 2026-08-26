@@ -74,3 +74,15 @@ export const subscribeWebPush = async (subscriptionData) => {
   if (!res.ok) throw new Error('Failed to save push subscription');
   return res.json();
 };
+
+export const checkBackendHealth = async () => {
+  try {
+    const res = await fetch(`${API_BASE}/health/`, { method: 'GET' });
+    if (!res.ok) return false;
+    const data = await res.json();
+    return data.status === 'ok';
+  } catch (e) {
+    return false;
+  }
+};
+
